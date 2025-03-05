@@ -1,10 +1,75 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  FlatList,
+  Pressable,
+} from 'react-native';
 import CardBalanceComponent from '../components/CardBalanceComponent';
 import CardTransactionComponent from '../components/CardTransactionComponent';
 
-let deviceHeight = Dimensions.get('screen').height;
+const deviceHeight = Dimensions.get('screen').height;
+const deviceWidth = Dimensions.get('screen').width;
 const HomeScreen = () => {
+  type CardTransactionProps = {
+    title: string;
+    description: string;
+    date: string;
+    amount: string;
+    type: string;
+    category?: string;
+  };
+
+  const data = [
+    {
+      id: '1',
+      title: 'Salary',
+      description: 'Gehalt',
+      date: '20.03.2025',
+      amount: '3000',
+      type: 'income',
+    },
+    {
+      id: '2',
+      title: 'Grocories',
+      description: 'Netto',
+      date: '20.02.2025',
+      amount: '50.40',
+      type: 'expense',
+    },
+    {
+      id: '3',
+      title: 'Medikamente',
+      description: 'Apotheke',
+      date: '20.02.2025',
+      amount: '68.85',
+      type: 'expense',
+    },
+    {
+      id: '4',
+      title: 'Salary',
+      description: 'Gehalt',
+      date: '20.02.2025',
+      amount: '3000',
+      type: 'income',
+    },
+  ];
+
+  const renderItem = ({item}: {item: CardTransactionProps}) => {
+    return (
+      <CardTransactionComponent
+        title={item.title}
+        description={item.description}
+        date={item.date}
+        amount={item.amount}
+        type={item.type}
+      />
+    );
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -16,12 +81,16 @@ const HomeScreen = () => {
           incomeAmount="4000"
           expensesAmount="500"
         />
-        <CardTransactionComponent
-          title="Groceries"
-          description="Netto"
-          date="20.02.2025"
-          amount="50.40"
+        <Text style={styles.transactionHeader}>Recent Transations</Text>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.flatListContainer}
         />
+        <Pressable style={styles.button}>
+          <Text style={styles.buttonText}>Add Transaction</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -39,9 +108,33 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   container: {
+    flex: 1,
     backgroundColor: '#F4F4F4',
     height: deviceHeight,
     // #E7E7E7
+  },
+  transactionHeader: {
+    margin: 10,
+    color: '#000',
+    fontWeight: 600,
+  },
+  flatListContainer: {
+    paddingBottom: 80,
+  },
+  button: {
+    position: 'absolute',
+    right: (deviceWidth / 2) * 0.33,
+    bottom: 30,
+    padding: 20,
+    marginHorizontal: 40,
+    backgroundColor: '#0090bd',
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 

@@ -1,11 +1,12 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React, { JSX } from 'react';
+import React, {JSX} from 'react';
 
 type CardTransactionProps = {
   title: string;
-  description?: string;
+  description: string;
   date: string;
   amount: string;
+  type: string;
   category?: string;
 };
 
@@ -14,17 +15,21 @@ const CardTransactionComponent = ({
   description,
   date,
   amount,
+  type,
 }: CardTransactionProps): JSX.Element => {
   return (
     <View style={styles.transactionContainer}>
-      <Text style={styles.transactionHeader}>Recent Transations</Text>
       <View style={styles.transactionCard}>
         <View style={styles.transactionColumn}>
           <Text style={styles.transactionTitle}>{title}</Text>
           <Text style={styles.transactionDescription}>{description}</Text>
           <Text style={styles.transactionDate}>{date}</Text>
         </View>
-        <Text style={styles.transactionAmount}>{amount} €</Text>
+        {type === 'income' ? (
+          <Text style={styles.transactionAmount}>+ {amount} €</Text>
+        ) : (
+          <Text style={styles.transactionExpensesAmount}>- {amount} €</Text>
+        )}
       </View>
     </View>
   );
@@ -33,11 +38,6 @@ const CardTransactionComponent = ({
 const styles = StyleSheet.create({
   transactionContainer: {
     margin: 10,
-  },
-  transactionHeader: {
-    marginVertical: 10,
-    color: '#000',
-    fontWeight: 600,
   },
   transactionCard: {
     flexDirection: 'row',
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'center',
     color: '#FF0000',
+    fontWeight: 'bold',
   },
 });
 
