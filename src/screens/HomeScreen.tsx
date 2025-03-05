@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,12 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import CardBalanceComponent from '../components/CardBalanceComponent';
 import CardTransactionComponent from '../components/CardTransactionComponent';
+import {MainNavigatorParamList} from '../navigation/MainNavigator';
+
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const deviceHeight = Dimensions.get('screen').height;
 const deviceWidth = Dimensions.get('screen').width;
@@ -22,6 +26,13 @@ const HomeScreen = () => {
     type: string;
     category?: string;
   };
+
+  type HomeScreenNavigationProp = NativeStackNavigationProp<
+    MainNavigatorParamList,
+    'HomeScreen'
+  >;
+
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
   const data = [
     {
@@ -70,28 +81,30 @@ const HomeScreen = () => {
     );
   };
 
+  const handleOnPress = useCallback(() => {
+    navigation.navigate('AddTransactionScreen');
+  }, [navigation]);
+
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerName}>Budget Tracker</Text>
-        </View>
-        <CardBalanceComponent
-          balanceAmount="3500"
-          incomeAmount="4000"
-          expensesAmount="500"
-        />
-        <Text style={styles.transactionHeader}>Recent Transations</Text>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.flatListContainer}
-        />
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Add Transaction</Text>
-        </Pressable>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerName}>Budget Tracker</Text>
       </View>
+      <CardBalanceComponent
+        balanceAmount="3500"
+        incomeAmount="4000"
+        expensesAmount="500"
+      />
+      <Text style={styles.transactionHeader}>Recent Transactions</Text>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        contentContainerStyle={styles.flatListContainer}
+      />
+      <Pressable style={styles.button} onPress={handleOnPress}>
+        <Text style={styles.buttonText}>Add Transaction</Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
@@ -122,6 +135,7 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
   },
   button: {
+    flex: 1,
     position: 'absolute',
     right: (deviceWidth / 2) * 0.33,
     bottom: 30,
