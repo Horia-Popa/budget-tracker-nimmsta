@@ -119,9 +119,9 @@ export const useTransactionStore = create<TransactionStore>()(
       },
     }),
     {
-      name: 'transaction-storage', // Unique name for storage
-      storage: createJSONStorage(() => AsyncStorage), // Use AsyncStorage with JSON serialization
-      partialize: state => ({transactions: state.transactions}), // Only persist transactions array
+      name: 'transaction-storage',
+      storage: createJSONStorage(() => AsyncStorage),
+      partialize: state => ({transactions: state.transactions}),
     },
   ),
 );

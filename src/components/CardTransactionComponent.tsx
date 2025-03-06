@@ -8,7 +8,7 @@ interface CardTransactionProps {
   amount: string;
   type: string;
   category: string;
-};
+}
 
 const CardTransactionComponent = ({
   title,
