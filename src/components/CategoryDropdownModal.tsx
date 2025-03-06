@@ -7,25 +7,20 @@ interface CategoryDropdownModalProps {
   onSelect: (value: string) => void;
 }
 
-const CategoryDropdownModal: React.FC<CategoryDropdownModalProps> = ({
+const CategoryDropdownModal = ({
   label,
   value,
   onSelect,
-}) => {
+}: CategoryDropdownModalProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const categories = [
     'Salary',
-    'Investments',
-    'Gifts',
     'Groceries',
-    'Dining Out',
     'Entertainment',
     'Housing',
     'Transportation',
     'Utilities',
     'Healthcare',
-    'Education',
-    'Shopping',
     'Other',
   ];
 
@@ -88,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 5,
+    borderRadius: 12,
     padding: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -113,8 +108,8 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
     padding: 20,
     maxHeight: '70%',
   },
@@ -139,7 +134,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: '#f0f0f0',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: 'center',
   },
   cancelButtonText: {

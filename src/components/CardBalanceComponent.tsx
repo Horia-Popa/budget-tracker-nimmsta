@@ -1,17 +1,23 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React, {JSX} from 'react';
+import React from 'react';
+import {PieChart} from 'react-native-gifted-charts';
 
 type CardBalanceProps = {
-  balanceAmount: string;
-  incomeAmount: string;
-  expensesAmount: string;
+  balanceAmount: number;
+  incomeAmount: number;
+  expensesAmount: number;
+  series: {
+    value: number;
+    color: string;
+  }[];
 };
 
 const CardBalanceComponent = ({
   balanceAmount,
   incomeAmount,
   expensesAmount,
-}: CardBalanceProps): JSX.Element => {
+  series,
+}: CardBalanceProps) => {
   return (
     <View style={styles.card}>
       <Text style={styles.cardHeader}>Current Balance</Text>
@@ -20,6 +26,11 @@ const CardBalanceComponent = ({
         <View style={styles.incomeContainer}>
           <Text style={styles.title}>Income</Text>
           <Text style={styles.amount}>{incomeAmount} €</Text>
+        </View>
+        <View style={styles.graphContainer}>
+          {series.length < 1 ? null : (
+            <PieChart data={series} donut radius={40} textColor={'#000'} />
+          )}
         </View>
         <View style={styles.expensesContainer}>
           <Text style={styles.title}>Expenses</Text>
@@ -69,6 +80,10 @@ const styles = StyleSheet.create({
   title: {padding: 5, textAlign: 'center', color: 'grey'},
   amount: {padding: 5, textAlign: 'center', color: '#0090bd'},
   expensesAmount: {padding: 5, textAlign: 'center', color: '#FF0000'},
+  graphContainer: {
+    alignItems: 'center',
+    margin: 5,
+  },
 });
 
 export default CardBalanceComponent;

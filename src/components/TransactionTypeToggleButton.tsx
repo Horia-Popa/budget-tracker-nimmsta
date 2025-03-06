@@ -12,9 +12,9 @@ interface TransactionTypeToggleProps {
   onTypeChange: (value: string) => void;
 }
 
-const TransactionTypeToggleButton: React.FC<TransactionTypeToggleProps> = ({
+const TransactionTypeToggleButton = ({
   onTypeChange,
-}) => {
+}: TransactionTypeToggleProps) => {
   const screenWidth = Dimensions.get('screen').width;
   const [isIncome, setIsIncome] = useState(true);
   const [animation] = useState(new Animated.Value(0));
@@ -82,15 +82,16 @@ const TransactionTypeToggleButton: React.FC<TransactionTypeToggleProps> = ({
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    height: 60,
-    margin: 20,
+    height: 40,
+    margin: 10,
+    paddingTop: 10,
   },
   toggleContainer: {
     flexDirection: 'row',
-    borderRadius: 30,
+    borderRadius: 12,
     backgroundColor: '#fff',
     overflow: 'hidden',
-    height: 60,
+    height: 40,
   },
   toggleOption: {
     flex: 1,
@@ -112,8 +113,8 @@ const styles = StyleSheet.create({
   pressableContainer: {
     position: 'absolute',
     width: '50%',
-    height: 60,
-    borderRadius: 30,
+    height: 40,
+    borderRadius: 12,
     backgroundColor: '#0090bd',
     zIndex: 1,
   },

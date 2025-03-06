@@ -1,42 +1,91 @@
-import {View, SafeAreaView, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  Alert,
+} from 'react-native';
+import React, {useCallback, useState} from 'react';
 import TransactionTypeToggleButton from '../components/TransactionTypeToggleButton';
-import InputFieldComponent from '../components/InputFieldComponent';
+import InputComponent from '../components/InputComponent';
 import CategoryDropdownModal from '../components/CategoryDropdownModal';
+import DatePickerInputComponent from '../components/DatePickerInputComponent';
+import {useTransactionStore} from '../stores/transactionStore';
+import ButtonComponent from '../components/ButtonComponent';
 
 const AddTransactionScreen = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState<Date>(new Date());
   const [amount, setAmount] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('income');
   const [category, setCategory] = useState('');
+
+  const addTransaction = useTransactionStore(state => state.addTransaction);
 
   const handleTypeChange = (transactionType: string) => {
     setType(transactionType);
   };
 
+  const handleOnPress = useCallback(() => {
+    if (!title || !description || !date || !amount || !category) {
+      Alert.alert('Please fill in all fields and try again.');
+      return;
+    }
+
+    function formatDate(newDate: Date) {
+      const day = String(newDate.getDate()).padStart(2, '0');
+      const month = String(newDate.getMonth() + 1).padStart(2, '0');
+      const year = newDate.getFullYear();
+
+      const formattedDate = `${day}.${month}.${year}`;
+      return formattedDate;
+    }
+
+    const transactionId = Date.now().toString();
+    addTransaction(
+      transactionId,
+      title,
+      description,
+      formatDate(date),
+      amount,
+      type,
+      category,
+    );
+
+    setTitle('');
+    setDescription('');
+    setDate(new Date());
+    setAmount('');
+    setType('income');
+    setCategory('');
+  }, [addTransaction, amount, category, date, description, title, type]);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <TransactionTypeToggleButton onTypeChange={handleTypeChange} />
 
       <View style={styles.formContainer}>
-        <InputFieldComponent
+        <InputComponent
           label="TITLE"
           placeholder="E.g., Salary, Groceries, Bills"
           value={title}
           onChangeText={setTitle}
           keyboardType={'decimal-pad'}
-          multiline={false}
         />
 
-        <InputFieldComponent
+        <InputComponent
           label="AMOUNT (€)"
           placeholder="0,00"
           value={amount}
           onChangeText={setAmount}
           keyboardType="decimal-pad"
-          multiline={false}
+        />
+
+        <DatePickerInputComponent
+          label={'DATE'}
+          value={date}
+          onChange={setDate}
         />
 
         <CategoryDropdownModal
@@ -45,16 +94,20 @@ const AddTransactionScreen = () => {
           onSelect={setCategory}
         />
 
-        <InputFieldComponent
-          label="DESCRIPTION (OPTIONAL)"
+        <InputComponent
+          label="DESCRIPTION"
           placeholder="Add notes here..."
           value={description}
           onChangeText={setDescription}
-          multiline={true}
           keyboardType={'decimal-pad'}
         />
+        <View style={styles.button}>
+          <ButtonComponent onPress={handleOnPress}>
+            <Text style={styles.buttonText}>Save Transaction</Text>
+          </ButtonComponent>
+        </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -70,7 +123,21 @@ const styles = StyleSheet.create({
     fontSize: 21,
   },
   formContainer: {
-    margin: 20,
+    margin: 10,
+  },
+  button: {
+    flex: 1,
+    bottom: 30,
+    padding: 20,
+    margin: 40,
+    backgroundColor: '#0090bd',
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 

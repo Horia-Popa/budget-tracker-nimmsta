@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React, {JSX} from 'react';
+import React from 'react';
 
 type CardTransactionProps = {
   title: string;
@@ -7,7 +7,7 @@ type CardTransactionProps = {
   date: string;
   amount: string;
   type: string;
-  category?: string;
+  category: string;
 };
 
 const CardTransactionComponent = ({
@@ -16,12 +16,14 @@ const CardTransactionComponent = ({
   date,
   amount,
   type,
-}: CardTransactionProps): JSX.Element => {
+  category,
+}: CardTransactionProps) => {
   return (
     <View style={styles.transactionContainer}>
       <View style={styles.transactionCard}>
         <View style={styles.transactionColumn}>
           <Text style={styles.transactionTitle}>{title}</Text>
+          <Text style={styles.transactionDescription}>{category}</Text>
           <Text style={styles.transactionDescription}>{description}</Text>
           <Text style={styles.transactionDate}>{date}</Text>
         </View>
@@ -37,9 +39,10 @@ const CardTransactionComponent = ({
 
 const styles = StyleSheet.create({
   transactionContainer: {
-    margin: 10,
+    width: '100%',
   },
   transactionCard: {
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#fff',
     borderColor: '#000',
@@ -51,12 +54,12 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   transactionTitle: {
-    marginVertical: 10,
+    marginVertical: 2,
     color: '#000',
     fontWeight: 'bold',
   },
   transactionDescription: {
-    marginVertical: 5,
+    marginVertical: 1,
     color: 'grey',
     fontWeight: 600,
   },

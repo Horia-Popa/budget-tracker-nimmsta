@@ -6,26 +6,38 @@ import {
   SafeAreaView,
   Dimensions,
   FlatList,
-  Pressable,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import CardBalanceComponent from '../components/CardBalanceComponent';
-import CardTransactionComponent from '../components/CardTransactionComponent';
 import {MainNavigatorParamList} from '../navigation/MainNavigator';
 
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useTransactionStore} from '../stores/transactionStore';
+import SwipableItem from '../components/SwipableItem';
+import ButtonComponent from '../components/ButtonComponent';
 
 const deviceHeight = Dimensions.get('screen').height;
-const deviceWidth = Dimensions.get('screen').width;
 const HomeScreen = () => {
-  type CardTransactionProps = {
+  const getTransactions = useTransactionStore(state => state.getTransactions);
+  const transactions = useTransactionStore(state => state.transactions);
+  const balance = useTransactionStore(state => state.getBalance());
+  const totalIncome = useTransactionStore(state => state.getTotalIncome());
+  const totalExpense = useTransactionStore(state => state.getTotalExpense());
+
+  type SwipableItemProps = {
+    id: string;
     title: string;
     description: string;
     date: string;
     amount: string;
     type: string;
-    category?: string;
+    category: string;
   };
+
+  const series = [
+    {value: totalIncome, color: '#0090bd'},
+    {value: totalExpense, color: 'red'},
+  ];
 
   type HomeScreenNavigationProp = NativeStackNavigationProp<
     MainNavigatorParamList,
@@ -34,77 +46,43 @@ const HomeScreen = () => {
 
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
-  const data = [
-    {
-      id: '1',
-      title: 'Salary',
-      description: 'Gehalt',
-      date: '20.03.2025',
-      amount: '3000',
-      type: 'income',
-    },
-    {
-      id: '2',
-      title: 'Grocories',
-      description: 'Netto',
-      date: '20.02.2025',
-      amount: '50.40',
-      type: 'expense',
-    },
-    {
-      id: '3',
-      title: 'Medikamente',
-      description: 'Apotheke',
-      date: '20.02.2025',
-      amount: '68.85',
-      type: 'expense',
-    },
-    {
-      id: '4',
-      title: 'Salary',
-      description: 'Gehalt',
-      date: '20.02.2025',
-      amount: '3000',
-      type: 'income',
-    },
-  ];
-
-  const renderItem = ({item}: {item: CardTransactionProps}) => {
-    return (
-      <CardTransactionComponent
-        title={item.title}
-        description={item.description}
-        date={item.date}
-        amount={item.amount}
-        type={item.type}
-      />
-    );
+  const renderItem = ({item}: {item: SwipableItemProps}) => {
+    return <SwipableItem item={item} />;
   };
 
   const handleOnPress = useCallback(() => {
     navigation.navigate('AddTransactionScreen');
-  }, [navigation]);
+    console.log(getTransactions());
+  }, [getTransactions, navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerName}>Budget Tracker</Text>
+      <View style={styles.homeContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerName}>Budget Tracker</Text>
+        </View>
+        <CardBalanceComponent
+          balanceAmount={balance}
+          incomeAmount={totalIncome}
+          expensesAmount={totalExpense}
+          series={series}
+        />
+        {transactions.length < 1 ? null : (
+          <Text style={styles.transactionHeader}>Recent Transactions</Text>
+        )}
+
+        <FlatList
+          data={transactions}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.flatListContainer}
+        />
       </View>
-      <CardBalanceComponent
-        balanceAmount="3500"
-        incomeAmount="4000"
-        expensesAmount="500"
-      />
-      <Text style={styles.transactionHeader}>Recent Transactions</Text>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.flatListContainer}
-      />
-      <Pressable style={styles.button} onPress={handleOnPress}>
-        <Text style={styles.buttonText}>Add Transaction</Text>
-      </Pressable>
+      <View style={styles.button}>
+        <ButtonComponent onPress={handleOnPress}>
+          <Text style={styles.buttonText}>Add Transaction</Text>
+        </ButtonComponent>
+      </View>
     </SafeAreaView>
   );
 };
@@ -122,9 +100,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    position: 'relative',
     backgroundColor: '#F4F4F4',
     height: deviceHeight,
-    // #E7E7E7
+  },
+  homeContainer: {
+    marginBottom: 370,
   },
   transactionHeader: {
     margin: 10,
@@ -137,9 +118,10 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     position: 'absolute',
-    right: (deviceWidth / 2) * 0.33,
-    bottom: 30,
-    padding: 20,
+    bottom: 20,
+    left: 0,
+    right: 0,
+    padding: 16,
     marginHorizontal: 40,
     backgroundColor: '#0090bd',
     borderRadius: 12,

@@ -7,34 +7,31 @@ import {
 } from 'react-native';
 import React from 'react';
 
-interface InputFieldComponentProps {
+interface InputComponentProps {
   label: string;
   placeholder: string;
   value: string;
   onChangeText: (value: string) => void;
   keyboardType: KeyboardTypeOptions;
-  multiline: boolean;
 }
 
-const InputFieldComponent: React.FC<InputFieldComponentProps> = ({
+const InputComponent = ({
   label,
   placeholder,
   value,
   onChangeText,
   keyboardType = 'default',
-  multiline = false,
-}) => {
+}: InputComponentProps) => {
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.inputLabel}>{label}</Text>
       <TextInput
-        style={[styles.input, multiline && styles.multilineInput]}
+        style={styles.input}
         placeholder={placeholder}
         placeholderTextColor="#999"
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
-        multiline={multiline}
       />
     </View>
   );
@@ -59,10 +56,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#333',
   },
-  multilineInput: {
-    height: 80,
-    textAlignVertical: 'top',
-  },
 });
 
-export default InputFieldComponent;
+export default InputComponent;
