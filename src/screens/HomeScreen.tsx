@@ -24,7 +24,7 @@ const HomeScreen = () => {
   const totalIncome = useTransactionStore(state => state.getTotalIncome());
   const totalExpense = useTransactionStore(state => state.getTotalExpense());
 
-  type SwipableItemProps = {
+  interface SwipableItemProps {
     id: string;
     title: string;
     description: string;

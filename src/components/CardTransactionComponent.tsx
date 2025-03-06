@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 
-type CardTransactionProps = {
+interface CardTransactionProps {
   title: string;
   description: string;
   date: string;
@@ -23,9 +23,9 @@ const CardTransactionComponent = ({
       <View style={styles.transactionCard}>
         <View style={styles.transactionColumn}>
           <Text style={styles.transactionTitle}>{title}</Text>
-          <Text style={styles.transactionDescription}>{category}</Text>
-          <Text style={styles.transactionDescription}>{description}</Text>
-          <Text style={styles.transactionDate}>{date}</Text>
+          <Text style={styles.transactiontext}>{category}</Text>
+          <Text style={styles.transactiontext}>{description}</Text>
+          <Text style={styles.transactiontext}>{date}</Text>
         </View>
         {type === 'income' ? (
           <Text style={styles.transactionAmount}>+ {amount} €</Text>
@@ -49,22 +49,18 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  transactionColumn: {
     padding: 5,
   },
+  transactionColumn: {
+    padding: 3,
+  },
   transactionTitle: {
-    marginVertical: 2,
+    marginVertical: 4,
     color: '#000',
     fontWeight: 'bold',
   },
-  transactionDescription: {
+  transactiontext: {
     marginVertical: 1,
-    color: 'grey',
-    fontWeight: 600,
-  },
-  transactionDate: {
-    marginVertical: 5,
     color: 'grey',
     fontWeight: 600,
   },

@@ -16,7 +16,7 @@ import {useTransactionStore} from '../stores/transactionStore';
 const {width} = Dimensions.get('window');
 const SWIPE_THRESHOLD = 20;
 
-type SwipableItemProps = {
+interface SwipableItemProps {
   id: string;
   title: string;
   description: string;
@@ -222,7 +222,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    backgroundColor: 'white',
     borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
@@ -230,6 +229,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 15,
     zIndex: 2,
+    backgroundColor: '#fff',
   },
   activeSwipe: {
     shadowOpacity: 0.2,

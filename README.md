@@ -1,97 +1,95 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# [budgetTrackerNimmsta]
 
-# Getting Started
+## 📖 Project Overview
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+- **Purpose**: The goal of the application is to manage or track incomes and expenses
+- **Core Features**:
+  - Budget Visualization
+  - ListView of Transactions
+  - Adding new Transactions
+  - Deleting new Transactions
 
-## Step 1: Start Metro
+![HomeScreen](<Simulator Screenshot - iPhone 14 - 2025-03-06 at 15.44.01.png>)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 🚀 Getting Started
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### Prerequisites
 
-```sh
-# Using npm
-npm start
+- Have Xcode or Android Studio installed and a emulator set-up
+- For iOS have Cocoapods installed. For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
 
-# OR using Yarn
-yarn start
-```
+### Installation
 
-## Step 2: Build and run your app
+1. Clone the repository
+2. cd [/budgetTrackerNimmsta]
+3. npm install
+4. npm start
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+# For Android
 npm run android
 
-# OR using Yarn
-yarn android
-```
+# For iOS
 
-### iOS
+1. cd [/budgetTrackerNimmsta/ios]
+2. ```
+   pod install
+   ```
+cd [/budgetTrackerNimmsta]
+3. npm run ios
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+If it doesn't run please open Xcode and open the `` budgetTrackerNimmsta.xcworkspace `` file inside the ios file. 
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+## Technologies & Design Decisions
 
-```sh
-bundle install
-```
+### Tech Stack
 
-Then, and every time you update your native dependencies, run:
+Frontend: [Bare React Native]
 
-```sh
-bundle exec pod install
-```
+State Management: [ Zustand ]
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Navigation: [React Navigation]
 
-```sh
-# Using npm
-npm run ios
+Persistence: [ AsyncStorage ]
 
-# OR using Yarn
-yarn ios
-```
+Styling: [ StyleSheet ]
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Key Design Decisions
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### Architecture:
 
-## Step 3: Modify your app
+I went with a component based approach, to increase the readability and maintainability of the code. If I were to expand the project, I would go into a atomic-component approach. 
 
-Now that you have successfully run the app, let's make changes!
+#### Folder structure rationale
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+[budgetTrackerNimmsta]/
+├── .bundle/   
+├── android
+├── ios
+├── node_modules       
+├── src/
+│   ├── components/    # Reusable components
+│   ├── navigation/    # Navigation setup
+│   ├── screens/       # Application screens
+│   ├── store/         # State management
+├── App.tsx            # Main application entry
+└── package.json
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### State Management:
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+I chose to go with Zustand because it's light-weight and easy to get started with. The project is not complex, so choosing something like Redux or mobX was overkill.
+I created a single store file, where all the logic is handled and added comments to all the functions. 
 
-## Congratulations! :tada:
+### Design
 
-You've successfully run and modified your React Native App. :partying_face:
+I went with a simple color scheme focusing mainly on the Nimmsta brand color for income and red for expenses. Otherwise made use of white and grey to be able to bring important elements in focus. 
 
-### Now what?
+The HomeScreen is used for visualizing data with both numbers and a PieChart. There is also a FlatList for going over all the transactions. Transactions can also be deleted by sliding a transaction from right to left. 
+Besides that created a simple Form for adding new transaction. 
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
 
-# Troubleshooting
+To improve the project, I would add filtering of the FlatList by date and categories. Furthermore, I would add a additional Screen to view individual transactions and to edit them if necessary. 
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+Code-wise I would add tests and and more animations, including to the PieChart when it loads and would create types for colors and a utils folder for future helper functions. 
 
-# Learn More
 
-To learn more about React Native, take a look at the following resources:
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
