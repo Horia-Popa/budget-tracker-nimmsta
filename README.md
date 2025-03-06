@@ -9,9 +9,9 @@
   - Adding new Transactions
   - Deleting new Transactions
 
-![HomeScreen](./docs//Simulator%20Screenshot%20-%20iPhone%2014%20-%202025-03-06%20at%2015.44.01.png)
+![HomeScreen](./docs/Simulator%20Screenshot%20-%20iPhone%2014%20-%202025-03-06%20at%2016.55.56.png)
 
-![How to Delete](./docs/Simulator%20Screenshot%20-%20iPhone%2014%20-%202025-03-06%20at%2016.41.53.png)
+![HomeScreen Android](./docs/Screenshot_1741276603.png)
 
 ## 🚀 Getting Started
 
