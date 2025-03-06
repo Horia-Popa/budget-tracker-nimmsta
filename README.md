@@ -1,4 +1,4 @@
-# [budgetTrackerNimmsta]
+# budgetTrackerNimmsta
 
 ## 📖 Project Overview
 
@@ -61,7 +61,9 @@ I went with a component based approach, to increase the readability and maintain
 
 #### Folder structure rationale
 
-[budgetTrackerNimmsta]/
+
+```bash
+budgetTrackerNimmsta/
 ├── .bundle/   
 ├── android
 ├── ios
@@ -73,6 +75,7 @@ I went with a component based approach, to increase the readability and maintain
 │   ├── store/         # State management
 ├── App.tsx            # Main application entry
 └── package.json
+```
 
 ### State Management:
 
@@ -86,6 +89,7 @@ I went with a simple color scheme focusing mainly on the Nimmsta brand color for
 The HomeScreen is used for visualizing data with both numbers and a PieChart. There is also a FlatList for going over all the transactions. Transactions can also be deleted by sliding a transaction from right to left. 
 Besides that created a simple Form for adding new transaction. 
 
+### Improvements  
 
 To improve the project, I would add filtering of the FlatList by date and categories. Furthermore, I would add a additional Screen to view individual transactions and to edit them if necessary. 
 
